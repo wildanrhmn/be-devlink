@@ -1,0 +1,151 @@
+type User {
+  id: ID!
+  username: String!
+  email: String!
+  collections: [Collection!]!
+}
+
+type Collection {
+  id: ID!
+  name: String!
+  description: String
+  requests: [Request!]!
+  owner: User!
+  sharedWith: [User!]
+  isPublic: Boolean!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Request {
+  id: ID!
+  name: String!
+  method: String!
+  url: String!
+  headers: [Header!]
+  params: [Param!]
+  body: String
+  responses: [Response!]
+  notes: String
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Header {
+  key: String!
+  value: String!
+}
+
+type Param {
+  key: String!
+  value: String!
+}
+
+type Response {
+  id: ID!
+  statusCode: Int!
+  body: String!
+  headers: [Header!]!
+  timestamp: String!
+}
+
+type Environment {
+  id: ID!
+  name: String!
+  variables: [EnvVariable!]!
+  owner: User!
+}
+
+type EnvVariable {
+  key: String!
+  value: String!
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+input HeaderInput {
+  key: String!
+  value: String!
+}
+
+input ParamInput {
+  key: String!
+  value: String!
+}
+
+input EnvVariableInput {
+  key: String!
+  value: String!
+}
+
+type Query {
+  me: User
+  user(id: ID!): User
+  collection(id: ID!): Collection
+  collections: [Collection!]!
+  request(id: ID!): Request
+  requests(collectionId: ID!): [Request!]!
+  environment(id: ID!): Environment
+  environments: [Environment!]!
+  publicCollections: [Collection!]!
+}
+
+type Mutation {
+  # Auth
+  signup(username: String!, email: String!, password: String!): AuthPayload!
+  login(email: String!, password: String!): AuthPayload!
+
+  # Collections
+  createCollection(name: String!, description: String): Collection!
+  updateCollection(id: ID!, name: String, description: String): Collection!
+  deleteCollection(id: ID!): Boolean!
+  shareCollection(id: ID!, userEmail: String!): Collection!
+  makeCollectionPublic(id: ID!, isPublic: Boolean!): Collection!
+
+  # Requests
+  createRequest(
+    collectionId: ID!
+    name: String!
+    method: String!
+    url: String!
+    headers: [HeaderInput!]
+    params: [ParamInput!]
+    body: String
+    notes: String
+  ): Request!
+
+  updateRequest(
+    id: ID!
+    name: String
+    method: String
+    url: String
+    headers: [HeaderInput]
+    params: [ParamInput]
+    body: String
+    notes: String
+  ): Request!
+
+  deleteRequest(id: ID!): Boolean!
+
+  # Responses
+  saveResponse(
+    requestId: ID!
+    statusCode: Int!
+    body: String!
+    headers: [HeaderInput!]!
+  ): Response!
+
+  deleteResponse(id: ID!): Boolean!
+
+  # Environments
+  createEnvironment(name: String!, variables: [EnvVariableInput!]): Environment!
+  updateEnvironment(
+    id: ID!
+    name: String
+    variables: [EnvVariableInput!]
+  ): Environment!
+  deleteEnvironment(id: ID!): Boolean!
+}
