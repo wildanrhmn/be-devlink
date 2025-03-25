@@ -4,7 +4,7 @@ import { ResponseService } from '../services/responses.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { HeaderInput } from '../graphql';
 import { CurrentUser } from '../auth/current-user.decorator';
-import { Schema } from 'mongoose';
+import { Types } from 'mongoose';
 
 @Resolver('Response')
 export class ResponseResolver {
@@ -30,7 +30,7 @@ export class ResponseResolver {
     );
     return {
       ...response.toObject(),
-      id: (response._id as Schema.Types.ObjectId).toString(),
+      id: (response._id as Types.ObjectId).toString(),
     };
   }
 

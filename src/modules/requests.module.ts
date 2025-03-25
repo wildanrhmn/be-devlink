@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RequestService } from '../services/requests.service';
 import { RequestResolver } from '../resolvers/requests.resolver';
-import { Request, RequestSchema } from '../schemas/RequestSchema';
-import { Collection, CollectionSchema } from '../schemas/CollectionSchema';
-import { Response, ResponseSchema } from '../schemas/ResponseSchema';
+import { Request, RequestSchema } from '../schemas/request.schema';
+import { Collection, CollectionSchema } from '../schemas/collection.schema';
+import { Response, ResponseSchema } from '../schemas/response.schema';
 
 @Module({
   imports: [

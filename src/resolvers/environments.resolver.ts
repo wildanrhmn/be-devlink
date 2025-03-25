@@ -4,7 +4,7 @@ import { EnvironmentService } from '../services/environments.service';
 import { EnvVariableInput } from '../graphql';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CurrentUser } from '../auth/current-user.decorator';
-import { Schema } from 'mongoose';
+import { Types } from 'mongoose';
 
 @Resolver('Environment')
 export class EnvironmentResolver {
@@ -23,7 +23,7 @@ export class EnvironmentResolver {
     
     return {
       ...environment.toObject(),
-      id: (environment._id as Schema.Types.ObjectId).toString(),
+      id: (environment._id as Types.ObjectId).toString(),
     };
   }
 
@@ -33,7 +33,7 @@ export class EnvironmentResolver {
     const environments = await this.environmentService.findUserEnvironments(user.userId);
     return environments.map(environment => ({
       ...environment.toObject(),
-      id: (environment._id as Schema.Types.ObjectId).toString(),
+      id: (environment._id as Types.ObjectId).toString(),
     }));
   }
 
@@ -51,7 +51,7 @@ export class EnvironmentResolver {
     );
     return {
       ...environment.toObject(),
-      id: (environment._id as Schema.Types.ObjectId).toString(),
+      id: (environment._id as Types.ObjectId).toString(),
     };
   }
 
@@ -72,7 +72,7 @@ export class EnvironmentResolver {
     
     return {
       ...environment.toObject(),
-      id: (environment._id as Schema.Types.ObjectId).toString(),
+      id: (environment._id as Types.ObjectId).toString(),
     };
   }
 

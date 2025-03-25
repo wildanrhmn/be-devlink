@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EnvironmentService } from '../services/environments.service';
 import { EnvironmentResolver } from '../resolvers/environments.resolver';
-import { Environment, EnvironmentSchema } from '../schemas/EnvironmentSchema';
+import { Environment, EnvironmentSchema } from '../schemas/environment.schema';
 
 @Module({
   imports: [

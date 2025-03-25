@@ -6,7 +6,7 @@ import { UserService } from '../services/users.service';
 import { Collection } from '../graphql';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CurrentUser } from '../auth/current-user.decorator';
-import { Schema } from 'mongoose';
+import { Types } from 'mongoose';
 
 @Resolver('Collection')
 export class CollectionResolver {
@@ -25,7 +25,7 @@ export class CollectionResolver {
     const collection = await this.collectionService.findById(id, userId);
     return {
       ...collection.toObject(),
-      id: (collection._id as Schema.Types.ObjectId).toString(),
+      id: (collection._id as Types.ObjectId).toString(),
     };
   }
 
@@ -35,7 +35,7 @@ export class CollectionResolver {
     const collections = await this.collectionService.findUserCollections(user.userId);
     return collections.map(collection => ({
       ...collection.toObject(),
-      id: (collection._id as Schema.Types.ObjectId).toString(),
+      id: (collection._id as Types.ObjectId).toString(),
     }));
   }
 
@@ -44,7 +44,7 @@ export class CollectionResolver {
     const collections = await this.collectionService.findPublicCollections();
     return collections.map(collection => ({
       ...collection.toObject(),
-      id: (collection._id as Schema.Types.ObjectId).toString(),
+      id: (collection._id as Types.ObjectId).toString(),
     }));
   }
 
@@ -55,6 +55,12 @@ export class CollectionResolver {
     @Args('description') description: string,
     @CurrentUser() user,
   ) {
+    console.log({
+      message: "Creating collection",
+      userId: user,
+      name,
+      description
+    });
     const collection = await this.collectionService.create(
       name,
       user.userId,
@@ -62,7 +68,7 @@ export class CollectionResolver {
     );
     return {
       ...collection.toObject(),
-      id: (collection._id as Schema.Types.ObjectId).toString(),
+      id: (collection._id as Types.ObjectId).toString(),
     };
   }
 
@@ -83,7 +89,7 @@ export class CollectionResolver {
     
     return {
       ...collection.toObject(),
-      id: (collection._id as Schema.Types.ObjectId).toString(),
+      id: (collection._id as Types.ObjectId).toString(),
     };
   }
 
@@ -112,7 +118,7 @@ export class CollectionResolver {
     
     return {
       ...collection.toObject(),
-      id: (collection._id as Schema.Types.ObjectId).toString(),
+      id: (collection._id as Types.ObjectId).toString(),
     };
   }
 
@@ -132,7 +138,7 @@ export class CollectionResolver {
     
     return {
       ...collection.toObject(),
-      id: (collection._id as Schema.Types.ObjectId).toString(),
+      id: (collection._id as Types.ObjectId).toString(),
     };
   }
 
@@ -143,7 +149,7 @@ export class CollectionResolver {
     if (!owner) throw new Error('Owner not found');
     
     return {
-      id: (owner._id as Schema.Types.ObjectId).toString(),
+      id: (owner._id as Types.ObjectId).toString(),
       username: owner.username,
       email: owner.email,
     };
@@ -156,7 +162,7 @@ export class CollectionResolver {
     const requests = await this.requestService.findByCollection(collection.id, userId);
     return requests.map(request => ({
       ...request.toObject(),
-      id: (request._id as Schema.Types.ObjectId).toString(),
+      id: (request._id as Types.ObjectId).toString(),
     }));
   }
 
@@ -164,8 +170,8 @@ export class CollectionResolver {
   @ResolveField('sharedWith')
   async sharedWith(@Parent() collection) {
     const users = await this.collectionService.getSharedUsers(collection.id);
-    return users.map(user => ({
-      id: (user._id as Schema.Types.ObjectId).toString(),
+    return users.filter(user => user !== null).map(user => ({
+      id: (user._id as Types.ObjectId).toString(),
       username: user.username,
       email: user.email,
     }));

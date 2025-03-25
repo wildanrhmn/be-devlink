@@ -4,7 +4,7 @@ import { RequestService } from '../services/requests.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { HeaderInput, ParamInput } from '../graphql';
 import { CurrentUser } from '../auth/current-user.decorator';
-import { Schema } from 'mongoose';
+import { Types } from 'mongoose';
 
 @Resolver('Request')
 export class RequestResolver {
@@ -23,7 +23,7 @@ export class RequestResolver {
     
     return {
       ...request.toObject(),
-      id: (request._id as Schema.Types.ObjectId).toString(),
+      id: (request._id as Types.ObjectId).toString(),
     };
   }
 
@@ -36,7 +36,7 @@ export class RequestResolver {
     const requests = await this.requestService.findByCollection(collectionId, user.userId);
     return requests.map(request => ({
       ...request.toObject(),
-      id: (request._id as Schema.Types.ObjectId).toString(),
+      id: (request._id as Types.ObjectId).toString(),
     }));
   }
 
@@ -66,7 +66,7 @@ export class RequestResolver {
     );
     return {
       ...request.toObject(),
-      id: (request._id as Schema.Types.ObjectId).toString(),
+      id: (request._id as Types.ObjectId).toString(),
     };
   }
 
@@ -100,7 +100,7 @@ export class RequestResolver {
     
     return {
       ...request.toObject(),
-      id: (request._id as Schema.Types.ObjectId).toString(),
+      id: (request._id as Types.ObjectId).toString(),
     };
   }
 
@@ -119,7 +119,7 @@ export class RequestResolver {
     const responses = await this.requestService.getResponses(request.id);
     return responses.map(response => ({
       ...response.toObject(),
-      id: (response._id as Schema.Types.ObjectId).toString(),
+      id: (response._id as Types.ObjectId).toString(),
     }));
   }
 }

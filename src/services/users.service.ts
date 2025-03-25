@@ -1,16 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User, IUser } from '../schemas/UserSchema';
+import { User } from '../schemas/user.schema';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
-import { Collection, ICollection } from '../schemas/CollectionSchema';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectModel(User.name) private userModel: Model<IUser>,
-    @InjectModel(Collection.name) private collectionModel: Model<ICollection>,
+    @InjectModel(User.name) private userModel: Model<User>,
     private jwtService: JwtService,
   ) {}
 
@@ -64,16 +62,12 @@ export class UserService {
     return user;
   }
 
-  async generateToken(user: IUser) {
+  async generateToken(user: User) {
     const payload = { 
       sub: user._id, 
       email: user.email 
     };
     
     return this.jwtService.sign(payload);
-  }
-
-  async getUserCollections(userId: string) {
-    return this.collectionModel.find({ owner: userId }).exec();
   }
 }

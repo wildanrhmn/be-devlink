@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Request, IRequest } from '../schemas/RequestSchema';
-import { Collection, ICollection } from '../schemas/CollectionSchema';
-import { Response, IResponse } from '../schemas/ResponseSchema';
+import { Request } from '../schemas/request.schema';
+import { Collection } from '../schemas/collection.schema';
+import { Response } from '../schemas/response.schema';
 import { HeaderInput, ParamInput } from '../graphql';
 
 @Injectable()
 export class RequestService {
   constructor(
-    @InjectModel(Request.name) private requestModel: Model<IRequest>,
-    @InjectModel(Collection.name) private collectionModel: Model<ICollection>,
-    @InjectModel(Response.name) private responseModel: Model<IResponse>,
+    @InjectModel(Request.name) private requestModel: Model<Request>,
+    @InjectModel(Collection.name) private collectionModel: Model<Collection>,
+    @InjectModel(Response.name) private responseModel: Model<Response>,
   ) {}
 
   async findById(id: string, userId: string) {

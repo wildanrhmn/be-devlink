@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { Environment, IEnvironment } from '../schemas/EnvironmentSchema';
+import { Environment } from '../schemas/environment.schema';
 import { EnvVariableInput } from '../graphql';
 
 @Injectable()
 export class EnvironmentService {
   constructor(
-    @InjectModel(Environment.name) private environmentModel: Model<IEnvironment>,
+    @InjectModel(Environment.name) private environmentModel: Model<Environment>,
   ) {}
 
   async findById(id: string, userId: string) {

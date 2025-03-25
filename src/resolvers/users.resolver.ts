@@ -5,7 +5,7 @@ import { CollectionService } from '../services/collections.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AuthPayload } from '../graphql';
 import { CurrentUser } from '../auth/current-user.decorator';
-import { Schema } from 'mongoose';
+import { Types } from 'mongoose';
 
 @Resolver('User')
 export class UserResolver {
@@ -21,7 +21,7 @@ export class UserResolver {
     if (!userEntity) throw new Error('User not found');
     
     return {
-      id: (userEntity._id as Schema.Types.ObjectId).toString(),
+      id: (userEntity._id as Types.ObjectId).toString(),
       username: userEntity.username,
       email: userEntity.email,
       collections: [] // Add empty collections array to satisfy User type
@@ -35,7 +35,7 @@ export class UserResolver {
     if (!userEntity) throw new Error('User not found');
     
     return {
-      id: (userEntity._id as Schema.Types.ObjectId).toString(),
+      id: (userEntity._id as Types.ObjectId).toString(),
       username: userEntity.username,
       email: userEntity.email,
       collections: [] // Add empty collections array to satisfy User type
@@ -54,7 +54,7 @@ export class UserResolver {
     return {
       token,
       user: {
-        id: (user._id as Schema.Types.ObjectId).toString(),
+        id: (user._id as Types.ObjectId).toString(),
         username: user.username,
         email: user.email,
         collections: [] // Add empty collections array to satisfy User type
@@ -73,7 +73,7 @@ export class UserResolver {
     return {
       token,
       user: {
-        id: (user._id as Schema.Types.ObjectId).toString(),
+        id: (user._id as Types.ObjectId).toString(),
         username: user.username,
         email: user.email,
         collections: [] // Add empty collections array to satisfy User type
@@ -87,7 +87,7 @@ export class UserResolver {
     const collections = await this.collectionService.findUserCollections(user.id);
     return collections.map(collection => ({
       ...collection.toObject(),
-      id: (collection._id as Schema.Types.ObjectId).toString(),
+      id: (collection._id as Types.ObjectId).toString(),
     }));
   }
 }
