@@ -24,7 +24,7 @@ import { AuthModule } from './auth/auth.module';
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      typePaths: ['./**/*.gql'],
+      typePaths: ['./**/*.graphql'],
       playground: false,
       definitions: {
         path: join(process.cwd(), 'src/graphql.ts'),
